@@ -1,25 +1,20 @@
 import type { Metadata } from "next";
-import { DM_Sans } from "next/font/google";
+import Navigation from "@/components/Navigation";
+import Footer from "@/components/Footer";
 import "./globals.css";
 
-const dmSans = DM_Sans({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  display: "swap",
-});
-
 export const metadata: Metadata = {
-  title: "Aviation Expeditions - Aerial Adventures",
-  description: "Experience the world from above with Aviation Expeditions. Explore breathtaking destinations through scenic flights and aerial tours.",
-  keywords: "aviation, aerial tours, scenic flights, expeditions, adventure",
+  title: "Aviation Expeditions - Fairbanks Flightseeing Tours & Arctic Adventures",
+  description: "Experience the world from above with Aviation Expeditions. Fly with Sven over Alaska's pristine wilderness, national parks, and remote Arctic regions.",
+  keywords: "aviation, arctic tours, scenic flights, Alaska adventures, flightseeing, Gates of the Arctic, Denali",
   icons: {
     icon: [
       { url: "/favicon.ico", sizes: "any" },
     ],
   },
   openGraph: {
-    title: "Aviation Expeditions - Aerial Adventures",
-    description: "Experience the world from above with Aviation Expeditions.",
+    title: "Aviation Expeditions - Fairbanks Flightseeing Tours",
+    description: "Fly over Alaska's pristine wilderness with expert pilot Sven.",
     url: "https://aviation-expeditions.com",
     siteName: "Aviation Expeditions",
     locale: "en_US",
@@ -34,10 +29,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={dmSans.className}>
+      <body>
+        <Navigation />
         <main className="min-h-screen">
           {children}
         </main>
+        <Footer />
       </body>
     </html>
   );
