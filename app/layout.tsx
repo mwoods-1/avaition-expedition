@@ -9,8 +9,9 @@ export const metadata: Metadata = {
   keywords: "aviation, arctic tours, scenic flights, Alaska adventures, flightseeing, Gates of the Arctic, Denali",
   icons: {
     icon: [
-      { url: "/favicon.png", sizes: "256x256" },
+      { url: "/favicon.png", sizes: "256x256", type: "image/png" },
     ],
+    apple: "/favicon.png",
   },
   openGraph: {
     title: "Aviation Expeditions - Fairbanks Flightseeing Tours",
