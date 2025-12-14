@@ -78,7 +78,7 @@
 
 /* Navigation styles */
 header {
-  padding: 0.6rem 2rem 3rem 2rem;
+  padding: 0.6rem 2rem 0 2rem;
   background: transparent !important;
   border: none;
   position: absolute;
@@ -86,7 +86,8 @@ header {
   left: 0;
   right: 0;
   width: 100%;
-  z-index: 10;
+  z-index: 40;
+  overflow: visible !important;
 }
 
 nav {
@@ -96,6 +97,7 @@ nav {
   justify-content: space-between;
   align-items: center;
   background-color: transparent !important;
+  padding: 0.6rem 0 3rem 0;
 }
 
 .logo {
@@ -921,6 +923,24 @@ nav a:hover::after {
   transform: translateY(-1px);
 }
 
+
+/* Mobile Navigation Menu - using inline styles, no CSS needed */
+
+
+/* Mobile Menu Button */
+header button {
+  color: #a8b8cc;
+  transition: all 0.3s ease;
+  z-index: 50;
+}
+
+header button:hover {
+  color: #00d4ff;
+}
+
+header button svg {
+  stroke-width: 2.5;
+}
 
 /* Responsive */
 @media (max-width: 768px) {

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function Navigation() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -52,7 +52,7 @@ export default function Navigation() {
         {/* Mobile menu button */}
         <button
           onClick={() => setIsMenuOpen(!isMenuOpen)}
-          className="md:hidden p-2 rounded-md"
+          className="md:hidden p-3 rounded-md transition-all duration-300"
           aria-label="Toggle menu"
         >
           <svg
@@ -82,24 +82,45 @@ export default function Navigation() {
 
       {/* Mobile Navigation */}
       {isMenuOpen && (
-        <div className="md:hidden pb-6 space-y-4 px-4">
+        <div
+          style={{
+            position: "fixed",
+            top: "60px",
+            left: "0",
+            right: "0",
+            width: "100%",
+            backgroundColor: "#0f1f35",
+            borderTop: "2px solid #00d4ff",
+            borderBottom: "2px solid #00d4ff",
+            boxShadow: "0 8px 32px rgba(0, 0, 0, 0.9)",
+            zIndex: "39",
+            maxHeight: "calc(100vh - 60px)",
+            overflowY: "auto",
+            padding: "1.5rem 1rem",
+            display: "flex",
+            flexDirection: "column",
+            gap: "0.5rem"
+          }}
+        >
           {rightNavigation.map((item) => (
             <a
               key={item.name}
               href={item.href}
-              className="block text-sm hover:text-cyan-400 transition-colors py-2"
+              className="block text-sm hover:text-cyan-400 transition-colors py-3 px-2"
               onClick={() => setIsMenuOpen(false)}
             >
               {item.name}
             </a>
           ))}
-          <a
-            href={bookNowLink.href}
-            className="book-now-btn block text-center"
-            onClick={() => setIsMenuOpen(false)}
-          >
-            {bookNowLink.name}
-          </a>
+          <div className="pt-3 border-t border-cyan-400 border-opacity-20 mt-4">
+            <a
+              href={bookNowLink.href}
+              className="book-now-btn block text-center py-3"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              {bookNowLink.name}
+            </a>
+          </div>
         </div>
       )}
     </header>
