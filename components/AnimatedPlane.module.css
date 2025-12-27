@@ -1,0 +1,330 @@
+.planeContainer {
+  position: relative;
+  width: 100%;
+  height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: linear-gradient(135deg, rgba(10, 20, 40, 0.3) 0%, rgba(15, 31, 53, 0.2) 100%);
+  border-radius: 20px;
+  border: 2px solid rgba(0, 212, 255, 0.1);
+  margin: 3rem 0;
+}
+
+/* Main plane animation */
+.planeWrapper {
+  position: relative;
+  z-index: 10;
+  filter: drop-shadow(0 0 20px rgba(0, 212, 255, 0.4));
+  transform: translateX(-400px);
+  opacity: 0;
+}
+
+.planeWrapper.animate {
+  animation: planeFly 3.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+@keyframes planeFly {
+  0% {
+    transform: translateX(-400px) translateY(0) scale(0.9);
+    opacity: 0;
+    filter: drop-shadow(0 0 10px rgba(0, 212, 255, 0.2));
+  }
+  20% {
+    opacity: 1;
+  }
+  50% {
+    filter: drop-shadow(0 0 30px rgba(0, 212, 255, 0.8));
+  }
+  100% {
+    transform: translateX(400px) translateY(-40px) scale(1);
+    opacity: 0.7;
+    filter: drop-shadow(0 0 40px rgba(255, 165, 0, 0.6));
+  }
+}
+
+/* Plane image */
+.planeImage {
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  filter: brightness(1.1);
+}
+
+/* Swoosh lines - speed effect */
+.swooshLine {
+  position: absolute;
+  background: linear-gradient(90deg, transparent, rgba(0, 212, 255, 0.6), transparent);
+  border-radius: 50%;
+  z-index: 5;
+}
+
+.line1 {
+  width: 180px;
+  height: 8px;
+  top: 35%;
+  animation: swoosh1 3.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+.line2 {
+  width: 140px;
+  height: 6px;
+  top: 50%;
+  animation: swoosh2 3.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards 0.1s;
+}
+
+.line3 {
+  width: 160px;
+  height: 7px;
+  top: 65%;
+  animation: swoosh3 3.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards 0.2s;
+}
+
+.line4 {
+  width: 120px;
+  height: 5px;
+  top: 48%;
+  animation: swoosh4 3.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards 0.15s;
+}
+
+@keyframes swoosh1 {
+  0% {
+    left: -200px;
+    opacity: 0;
+    width: 180px;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    left: 100%;
+    opacity: 0;
+    width: 200px;
+  }
+}
+
+@keyframes swoosh2 {
+  0% {
+    left: -180px;
+    opacity: 0;
+    width: 140px;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    left: 100%;
+    opacity: 0;
+    width: 160px;
+  }
+}
+
+@keyframes swoosh3 {
+  0% {
+    left: -220px;
+    opacity: 0;
+    width: 160px;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    left: 100%;
+    opacity: 0;
+    width: 180px;
+  }
+}
+
+@keyframes swoosh4 {
+  0% {
+    left: -150px;
+    opacity: 0;
+    width: 120px;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    left: 100%;
+    opacity: 0;
+    width: 140px;
+  }
+}
+
+/* Glow effect background */
+.glowEffect {
+  position: absolute;
+  width: 500px;
+  height: 150px;
+  background: radial-gradient(ellipse 400px 80px at center, rgba(0, 212, 255, 0.15), transparent);
+  filter: blur(40px);
+  animation: glowPulse 3.5s ease-in-out forwards;
+  z-index: 1;
+}
+
+@keyframes glowPulse {
+  0% {
+    left: -500px;
+    opacity: 0;
+  }
+  15% {
+    opacity: 1;
+  }
+  85% {
+    opacity: 1;
+  }
+  100% {
+    left: calc(100% + 200px);
+    opacity: 0;
+  }
+}
+
+/* Trail effect - disappearing dots */
+.trailContainer {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+}
+
+.trailDot {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0, 212, 255, 0.8), rgba(255, 165, 0, 0.4));
+  box-shadow: 0 0 15px rgba(0, 212, 255, 0.6), inset 0 0 10px rgba(255, 255, 255, 0.3);
+}
+
+.dot1 {
+  width: 18px;
+  height: 18px;
+  animation: trailDot1 3.5s ease-out forwards;
+}
+
+.dot2 {
+  width: 14px;
+  height: 14px;
+  animation: trailDot2 3.5s ease-out forwards 0.3s;
+}
+
+.dot3 {
+  width: 10px;
+  height: 10px;
+  animation: trailDot3 3.5s ease-out forwards 0.6s;
+}
+
+@keyframes trailDot1 {
+  0% {
+    left: -100px;
+    top: 50%;
+    opacity: 1;
+  }
+  100% {
+    left: 50%;
+    top: 45%;
+    opacity: 0;
+  }
+}
+
+@keyframes trailDot2 {
+  0% {
+    left: 0;
+    top: 48%;
+    opacity: 1;
+  }
+  100% {
+    left: 70%;
+    top: 55%;
+    opacity: 0;
+  }
+}
+
+@keyframes trailDot3 {
+  0% {
+    left: 100px;
+    top: 52%;
+    opacity: 1;
+  }
+  100% {
+    left: 85%;
+    top: 48%;
+    opacity: 0;
+  }
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .planeContainer {
+    height: 220px;
+    margin: 2rem 0;
+  }
+
+  .planeWrapper {
+    transform: translateX(-300px);
+  }
+
+  .planeImage {
+    width: 200px;
+    height: auto;
+  }
+
+  .swooshLine {
+    height: 5px;
+  }
+
+  .line1, .line2, .line3, .line4 {
+    width: 100px;
+  }
+
+  .glowEffect {
+    width: 300px;
+    height: 100px;
+  }
+}
+
+@media (max-width: 480px) {
+  .planeContainer {
+    height: 180px;
+    margin: 1.5rem 0;
+  }
+
+  .planeImage {
+    width: 150px;
+  }
+
+  .swooshLine {
+    height: 4px;
+  }
+
+  .glowEffect {
+    width: 200px;
+    height: 80px;
+  }
+}
+
+/* Accessibility - Respect prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  .planeWrapper,
+  .swooshLine,
+  .glowEffect,
+  .trailDot {
+    animation: none !important;
+  }
+
+  .planeWrapper {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}

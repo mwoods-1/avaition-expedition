@@ -1,3 +1,7 @@
+'use client';
+
+import AnimatedPlane from '@/components/AnimatedPlane';
+
 export default function Home() {
   const tours = [
     {
@@ -71,6 +75,11 @@ export default function Home() {
           backgroundImage: "url('/images/winter_flying/winter_flying6.jpeg')",
         }}
       >
+        {/* Cloud Layers for Parallax Effect */}
+        <div className="cloud-layer cloud-1"></div>
+        <div className="cloud-layer cloud-2"></div>
+        <div className="cloud-layer cloud-3"></div>
+
         <div className="hero-content">
           <div className="hero-tag">✈️ Flightseeing Tours - Departing Fairbanks</div>
           <h1>Fly Above the Arctic</h1>
@@ -86,6 +95,11 @@ export default function Home() {
             </a>
           </div>
         </div>
+      </section>
+
+      {/* Animated Plane Section */}
+      <section style={{ padding: '4rem 2rem', maxWidth: '1400px', margin: '0 auto', position: 'relative', zIndex: 2 }}>
+        <AnimatedPlane />
       </section>
 
       {/* Tours Section */}
