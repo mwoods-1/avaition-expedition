@@ -52,7 +52,7 @@
   }
 
   .section-title {
-    @apply text-4xl md:text-5xl font-fraunces font-bold;
+    @apply text-4xl md:text-5xl font-fraunces font-bold mb-6;
     background: linear-gradient(135deg, #00d4ff 0%, #f0f4f8 50%, #ffa500 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -60,7 +60,7 @@
   }
 
   .section-subtitle {
-    @apply text-lg text-brand-text-muted max-w-2xl mb-8;
+    @apply text-lg text-brand-text-muted max-w-2xl;
   }
 
   .tour-card {
@@ -261,15 +261,11 @@ nav a:hover::after {
   z-index: 2;
 }
 
-.tours .section-subtitle {
-  margin-bottom: 4rem;
-}
-
 .tours-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
   gap: 2.5rem;
-  margin-top: 0;
+  margin-top: 4rem;
 }
 
 .tour-image {
@@ -641,7 +637,7 @@ nav a:hover::after {
 .mountain-container {
   position: relative;
   width: 100%;
-  height: 180px;
+  height: 0;
   overflow: hidden;
 }
 
@@ -1009,9 +1005,21 @@ header button svg {
     padding: 1rem 2rem;
   }
 
+  /* Meet Your Pilot - Mobile Responsive */
+  .hero-grid-mobile {
+    grid-template-columns: 1fr !important;
+    gap: 2rem !important;
+    align-items: auto !important;
+  }
+
+  section {
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
+
   /* Footer Responsive */
   .mountain-container {
-    height: 120px;
+    height: 0;
   }
 
   .footer-content {
@@ -1049,6 +1057,11 @@ header button svg {
     display: flex;
     flex-direction: column;
     align-items: center;
+  }
+
+  /* Tours Grid Mobile */
+  .tours-grid {
+    grid-template-columns: 1fr !important;
   }
 }
 

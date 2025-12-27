@@ -5,7 +5,7 @@ export default function Home() {
       name: "Gates of the Arctic / Kobuk Valley Combo",
       duration: "Full Day Tour • Arctic Explorer",
       description: "Experience two pristine national parks in one adventure—remote alpine peaks and vast sand dunes.",
-      image: "/aviation-expeditions-images/Tours/gates-of-the-arctic.jpg",
+      image: "/images/national_park/gates_of_the_arctic2.jpeg",
       highlights: ["National Park access", "Alpine & dunes"],
       passengers: 3,
       icon: "🏔️",
@@ -15,7 +15,7 @@ export default function Home() {
       name: "Arctic Circle Flight",
       duration: "2-3 Hours • Bucket List",
       description: "Cross the Arctic Circle and earn an official certificate.",
-      image: "/aviation-expeditions-images/Tours/arctic-circle.jpg",
+      image: "/images/winter_flying/winter_flying2.jpeg",
       highlights: ["Arctic Circle crossing", "Official certificate"],
       passengers: 3,
       icon: "🎯",
@@ -25,7 +25,7 @@ export default function Home() {
       name: "Remote Support / Logistics",
       duration: "Custom Duration • Expedition Support",
       description: "Professional aerial support for remote properties, mining operations, and wilderness access. Full logistics and landing coordination.",
-      image: "/aviation-expeditions-images/Tours/custom-trips.jpg",
+      image: "/images/winter_flying/winter_flying1.jpeg",
       highlights: ["Remote property access", "Professional logistics"],
       passengers: 3,
       icon: "🚁",
@@ -35,7 +35,7 @@ export default function Home() {
       name: "Denali Vista",
       duration: "3-4 Hours • Mountain Majesty",
       description: "View North America's tallest mountain from the air.",
-      image: "/aviation-expeditions-images/Tours/denali.jpg",
+      image: "/images/winter_flying/winter_flying5.jpeg",
       highlights: ["Mount Denali viewing", "Alaska Range scenery"],
       passengers: 3,
       icon: "⛰️",
@@ -45,7 +45,7 @@ export default function Home() {
       name: "White Mountains & Hotsprings",
       duration: "2-3 Hours • Scenic Loop",
       description: "Scenic White Mountains with remote hotsprings access.",
-      image: "/aviation-expeditions-images/Tours/hotsprings.jpg",
+      image: "/images/winter_flying/winter_flying3.jpeg",
       highlights: ["Mountain views", "Hotsprings access"],
       passengers: 3,
       icon: "🏖️",
@@ -55,7 +55,7 @@ export default function Home() {
       name: "Custom Adventures",
       duration: "Flexible • Your Vision",
       description: "Fully customized for your interests—fishing, hunting, expeditions & more.",
-      image: "/aviation-expeditions-images/Tours/custom-trips.jpg",
+      image: "/images/winter_flying/winter_flying4.jpeg",
       highlights: ["Fishing & hunting", "Remote access"],
       passengers: 3,
       icon: "🎣",
@@ -68,7 +68,7 @@ export default function Home() {
       <section
         className="hero"
         style={{
-          backgroundImage: "url('/aviation-expeditions-images/hero-image.jpg')",
+          backgroundImage: "url('/images/winter_flying/winter_flying6.jpeg')",
         }}
       >
         <div className="hero-content">
