@@ -1,7 +1,3 @@
-'use client';
-
-import AnimatedPlane from '@/components/AnimatedPlane';
-
 export default function Home() {
   const tours = [
     {
@@ -95,11 +91,6 @@ export default function Home() {
             </a>
           </div>
         </div>
-      </section>
-
-      {/* Animated Plane Section */}
-      <section style={{ padding: '4rem 2rem', maxWidth: '1400px', margin: '0 auto', position: 'relative', zIndex: 2 }}>
-        <AnimatedPlane />
       </section>
 
       {/* Tours Section */}
