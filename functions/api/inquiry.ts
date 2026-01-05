@@ -79,7 +79,7 @@ Reply directly to this email to respond to ${name} at ${email}
           'Authorization': `Bearer ${RESEND_API_KEY}`,
         },
         body: JSON.stringify({
-          from: 'Aviation Expeditions <noreply@aviation-expeditions.com>',
+          from: 'Aviation Expeditions <onboarding@resend.dev>',
           to: [CONTACT_EMAIL],
           reply_to: email,
           subject: `New Flight Inquiry: ${tourLabel}`,
