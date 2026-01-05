@@ -1,4 +1,5 @@
 // Cloudflare Pages Function for flight inquiry form
+// Uses Cloudflare Workers Email (free)
 export async function onRequestPost(context: any) {
   try {
     const body = await context.request.json();
@@ -53,43 +54,35 @@ This email was sent from the flight inquiry form at aviationexpeditions.com
 Reply directly to this email to respond to ${name} at ${email}
     `.trim();
 
-    // Send email using Resend API
-    const RESEND_API_KEY = context.env.RESEND_API_KEY;
-    const CONTACT_EMAIL = context.env.CONTACT_EMAIL || 'svenhaltmann@gmail.com';
+    // Get contact email from environment or use default
+    const CONTACT_EMAIL = context.env.CONTACT_EMAIL || 'inquiries@aviation-expeditions.com';
 
-    if (!RESEND_API_KEY) {
-      console.error('RESEND_API_KEY is not set in environment variables');
-      return new Response(
-        JSON.stringify({
-          error: 'Email service is not configured. Please contact Sven directly at svenhaltmann@gmail.com'
-        }), {
-          status: 500,
-          headers: { 'Content-Type': 'application/json' },
+    // Send email using Cloudflare Workers Email
+    const response = await context.env.send_email.post({
+      personalizations: [
+        {
+          to: [{ email: CONTACT_EMAIL }],
+          reply_to: { email: email, name: name }
         }
-      );
-    }
-
-    const response = await fetch('https://api.resend.com/emails', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${RESEND_API_KEY}`,
+      ],
+      from: {
+        email: 'noreply@aviation-expeditions.com',
+        name: 'Aviation Expeditions'
       },
-      body: JSON.stringify({
-        from: 'Aviation Expeditions <noreply@aviationexpeditions.com>',
-        to: [CONTACT_EMAIL],
-        reply_to: email,
-        subject: `Flight Inquiry: ${tourLabel}`,
-        text: emailBody,
-      }),
+      subject: `New Flight Inquiry: ${tourLabel}`,
+      content: [
+        {
+          type: 'text/plain',
+          value: emailBody
+        }
+      ]
     });
 
-    if (!response.ok) {
-      const errorData = await response.json();
-      console.error('Resend API error:', errorData);
+    if (response.status >= 400) {
+      console.error('Email sending error:', response);
       return new Response(
         JSON.stringify({
-          error: 'Failed to send email. Please try again or contact Sven directly at svenhaltmann@gmail.com'
+          error: 'Failed to send email. Please try again or contact us directly.'
         }), {
           status: 500,
           headers: { 'Content-Type': 'application/json' },
@@ -97,8 +90,7 @@ Reply directly to this email to respond to ${name} at ${email}
       );
     }
 
-    const data = await response.json();
-    console.log('Email sent successfully:', data);
+    console.log('Email sent successfully');
 
     return new Response(
       JSON.stringify({ message: 'Inquiry sent successfully!' }), {
@@ -110,7 +102,7 @@ Reply directly to this email to respond to ${name} at ${email}
     console.error('Inquiry form error:', error);
     return new Response(
       JSON.stringify({
-        error: 'An unexpected error occurred. Please contact Sven directly at svenhaltmann@gmail.com'
+        error: 'An unexpected error occurred. Please try again or contact us directly.'
       }), {
         status: 500,
         headers: { 'Content-Type': 'application/json' },
