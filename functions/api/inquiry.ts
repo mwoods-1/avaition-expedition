@@ -57,6 +57,7 @@ Reply directly to this email to respond to ${name} at ${email}
     // Get contact email from environment or use default
     const CONTACT_EMAIL = context.env.CONTACT_EMAIL || 'inquiries@aviation-expeditions.com';
     const RESEND_API_KEY = context.env.RESEND_API_KEY;
+    const SENDER_EMAIL = context.env.SENDER_EMAIL || 'noreply@aviation-expeditions.com';
 
     if (!RESEND_API_KEY) {
       console.error('RESEND_API_KEY is not set in environment variables');
@@ -79,7 +80,7 @@ Reply directly to this email to respond to ${name} at ${email}
           'Authorization': `Bearer ${RESEND_API_KEY}`,
         },
         body: JSON.stringify({
-          from: 'Aviation Expeditions <onboarding@resend.dev>',
+          from: `Aviation Expeditions <${SENDER_EMAIL}>`,
           to: [CONTACT_EMAIL],
           reply_to: email,
           subject: `New Flight Inquiry: ${tourLabel}`,
