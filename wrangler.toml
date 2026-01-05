@@ -17,4 +17,4 @@ format = "service-worker"
 vars = { ENVIRONMENT = "production" }
 
 [site]
-bucket = ".next/static"
+bucket = "out"
