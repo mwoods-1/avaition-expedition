@@ -386,11 +386,11 @@ export default function BookingPage() {
         }}>
           <h3 style={{color: '#00d4ff', marginBottom: '1rem', fontSize: '1.2rem'}}>Prefer Direct Contact?</h3>
           <p style={{marginBottom: '1rem'}}>
-            Feel free to reach out to Sven directly:
+            Feel free to reach out directly:
           </p>
           <ul style={{listStyle: 'none', padding: '0'}}>
             <li style={{marginBottom: '0.5rem'}}>
-              📧 Email: <a href="mailto:svenhaltmann@gmail.com" style={{color: '#00d4ff', textDecoration: 'none', fontWeight: '600'}}>svenhaltmann@gmail.com</a>
+              📧 Email: <a href="mailto:inquiries@aviation-expeditions.com" style={{color: '#00d4ff', textDecoration: 'none', fontWeight: '600'}}>inquiries@aviation-expeditions.com</a>
             </li>
             <li>
               📱 Phone: <a href="tel:907-355-7088" style={{color: '#00d4ff', textDecoration: 'none', fontWeight: '600'}}>907-355-7088</a>
