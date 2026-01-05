@@ -56,23 +56,40 @@ Reply directly to this email to respond to ${name} at ${email}
 
     // Get contact email from environment or use default
     const CONTACT_EMAIL = context.env.CONTACT_EMAIL || 'inquiries@aviation-expeditions.com';
+    const RESEND_API_KEY = context.env.RESEND_API_KEY;
 
-    // Send email using Cloudflare Email API
-    try {
-      const emailResponse = await context.env.send_email.post(
-        {
-          to: [{ email: CONTACT_EMAIL }],
-          from: {
-            name: 'Aviation Expeditions',
-            email: 'noreply@aviation-expeditions.com'
-          },
-          subject: `New Flight Inquiry: ${tourLabel}`,
-          text: emailBody
+    if (!RESEND_API_KEY) {
+      console.error('RESEND_API_KEY is not set in environment variables');
+      return new Response(
+        JSON.stringify({
+          error: 'Email service is not configured. Please contact us directly.'
+        }), {
+          status: 500,
+          headers: { 'Content-Type': 'application/json' },
         }
       );
+    }
 
-      if (!emailResponse || emailResponse.error) {
-        console.error('Email API error:', emailResponse);
+    // Send email using Resend API
+    try {
+      const response = await fetch('https://api.resend.com/emails', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${RESEND_API_KEY}`,
+        },
+        body: JSON.stringify({
+          from: 'Aviation Expeditions <noreply@aviation-expeditions.com>',
+          to: [CONTACT_EMAIL],
+          reply_to: email,
+          subject: `New Flight Inquiry: ${tourLabel}`,
+          text: emailBody,
+        }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.error('Resend API error:', errorData);
         return new Response(
           JSON.stringify({
             error: 'Failed to send email. Please try again or contact us directly.'
@@ -82,6 +99,9 @@ Reply directly to this email to respond to ${name} at ${email}
           }
         );
       }
+
+      const data = await response.json();
+      console.log('Email sent successfully:', data);
     } catch (emailError) {
       console.error('Email sending exception:', emailError);
       return new Response(
