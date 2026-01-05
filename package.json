@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "deploy": "npm run build && npx wrangler pages deploy .next --project-name=aviation-expeditions"
   },
   "dependencies": {
     "embla-carousel-react": "^8.6.0",
