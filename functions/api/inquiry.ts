@@ -90,9 +90,12 @@ Reply directly to this email to respond to ${name} at ${email}
       if (!response.ok) {
         const errorData = await response.json();
         console.error('Resend API error:', errorData);
+        console.error('Response status:', response.status);
+        console.error('Full error:', JSON.stringify(errorData, null, 2));
         return new Response(
           JSON.stringify({
-            error: 'Failed to send email. Please try again or contact us directly.'
+            error: 'Failed to send email. Please try again or contact us directly.',
+            debug: errorData
           }), {
             status: 500,
             headers: { 'Content-Type': 'application/json' },
