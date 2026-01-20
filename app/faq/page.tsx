@@ -121,11 +121,10 @@ export default function FAQPage() {
         }}>
           <h3 style={{color: '#00d4ff', marginBottom: '1rem', fontSize: '1.2rem'}}>Didn't find your answer?</h3>
           <p>
-            Contact Sven directly at{" "}
-            <a href="mailto:svenhaltmann@gmail.com" style={{color: '#00d4ff', textDecoration: 'none', fontWeight: '600'}}>
-              svenhaltmann@gmail.com
+            <a href="/inquiry" style={{color: '#00d4ff', textDecoration: 'none', fontWeight: '600'}}>
+              Send us an inquiry
             </a>{" "}
-            or call{" "}
+            or call Sven directly at{" "}
             <a href="tel:907-355-7088" style={{color: '#f0f4f8', textDecoration: 'none', fontWeight: '600'}}>
               907-355-7088
             </a>

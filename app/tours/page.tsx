@@ -99,7 +99,7 @@ export default function ToursPage() {
                     ))}
                   </ul>
                 </div>
-                <a href="mailto:svenhaltmann@gmail.com" className="info-button">
+                <a href="/inquiry" className="info-button">
                   Inquire
                 </a>
               </div>

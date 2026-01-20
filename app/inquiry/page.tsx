@@ -68,11 +68,6 @@ export default function BookingPage() {
 
         // Scroll to top to see success message
         window.scrollTo({ top: 0, behavior: 'smooth' });
-
-        setTimeout(() => {
-          setSubmitted(false);
-          setSubmissionError(null);
-        }, 3000);
       } else {
         setSubmissionError(data.error || "Failed to submit form. Please try again.");
         console.error("Form submission error:", data);

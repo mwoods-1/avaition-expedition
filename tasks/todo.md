@@ -72,29 +72,39 @@ Transitioning from Cloudflare Email Routing to AWS SES for the inquiry form, and
 User fills form → Pages Function (/api/inquiry) → AWS SES → Recipient Email
 ```
 
-## Next Steps for User
+## ✅ COMPLETED - Email System Working!
 
-1. **Set up AWS SES** (see [AWS-SES-SETUP.md](../AWS-SES-SETUP.md)):
-   - Verify sender email in AWS SES Console
-   - Create IAM user with SES permissions
-   - Get AWS access key ID and secret access key
+**Final Configuration:**
+- AWS Region: `eu-north-1` (Europe Stockholm)
+- Verified Email: `mark99woods@gmail.com`
+- Successfully tested: 2026-01-20
+- MessageId: `0110019bdccc80ad-f4f9f342-800a-486d-8b9a-b4067302b9cd-000000`
 
-2. **Configure Cloudflare Pages environment variables**:
-   - `AWS_ACCESS_KEY_ID`
-   - `AWS_SECRET_ACCESS_KEY`
-   - `AWS_REGION` (e.g., `us-east-1`)
-   - `CONTACT_EMAIL` (where inquiries go)
-   - `FROM_EMAIL` (verified sender)
+## Final Implementation Details
 
-3. **Deploy and test**:
-   - Push changes to GitHub
-   - Cloudflare Pages will auto-deploy
-   - Test the inquiry form
-   - Check email delivery
+**Technology Stack:**
+- AWS SES v2 API (REST endpoint)
+- `@smithy/signature-v4` for AWS request signing
+- `@aws-crypto/sha256-js` for hashing
+- Native `fetch` API (Cloudflare Workers compatible)
+
+**Environment Variables (Production):**
+- `AWS_ACCESS_KEY_ID` - IAM user access key
+- `AWS_SECRET_ACCESS_KEY` - IAM user secret key
+- `AWS_REGION` - `eu-north-1`
+- `CONTACT_EMAIL` - `mark99woods@gmail.com`
+- `FROM_EMAIL` - `mark99woods@gmail.com`
+
+## Challenges Solved
+
+1. **DOMParser compatibility issue** - AWS SDK tried to use browser APIs
+2. **Node.js runtime incompatibility** - Cloudflare Workers doesn't support Node APIs
+3. **Region mismatch** - Email verified in eu-north-1, code defaulted to us-east-1
+4. **Solution**: Switched from AWS SDK to direct SES v2 REST API with manual request signing
 
 ## Notes
-- Much simpler than Cloudflare approach (no separate worker needed)
-- AWS SES free tier: 62,000 emails/month (from EC2) or $0.10/1000 emails
-- Need to verify sender email in AWS SES console first
-- SES Sandbox mode requires recipient verification OR production access request
-- All Cloudflare email code has been removed
+- Simpler than Cloudflare Email Worker approach (no separate worker needed)
+- AWS SES free tier: 62,000 emails/month or $0.10/1000 emails
+- Currently in SES Sandbox mode (can only send to verified emails)
+- To send to any customer email, request production access in SES Console
+- All Cloudflare Email Worker code has been removed
