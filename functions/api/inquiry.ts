@@ -1,12 +1,7 @@
 // Cloudflare Pages Function for flight inquiry form
-// Uses AWS SES for email delivery
-import { SESClient, SendEmailCommand } from '@aws-sdk/client-ses';
-import { DOMParser } from '@xmldom/xmldom';
-
-// Polyfill DOMParser for Cloudflare Workers environment
-if (typeof globalThis.DOMParser === 'undefined') {
-  (globalThis as any).DOMParser = DOMParser;
-}
+// Uses AWS SES v2 API directly (compatible with Cloudflare Workers)
+import { SignatureV4 } from '@smithy/signature-v4';
+import { Sha256 } from '@aws-crypto/sha256-js';
 
 export async function onRequestPost(context: any) {
   try {
@@ -67,7 +62,7 @@ This email was sent from the flight inquiry form at aviation-expeditions.com
 Reply directly to this email to respond to ${name} at ${email}
     `.trim();
 
-    // Send email via AWS SES
+    // Send email via AWS SES v2 API
     try {
       // Check for required environment variables
       if (!context.env.AWS_ACCESS_KEY_ID || !context.env.AWS_SECRET_ACCESS_KEY) {
@@ -79,40 +74,76 @@ Reply directly to this email to respond to ${name} at ${email}
         throw new Error('AWS credentials not configured');
       }
 
-      console.log('Initializing SES client with region:', AWS_REGION);
+      console.log('Preparing SES v2 API request for region:', AWS_REGION);
       console.log('Sending from:', FROM_EMAIL, 'to:', CONTACT_EMAIL);
 
-      // Initialize SES client with credentials from environment
-      const sesClient = new SESClient({
+      // Prepare SES v2 SendEmail request body
+      const sesRequestBody = JSON.stringify({
+        Content: {
+          Simple: {
+            Subject: {
+              Data: `New Flight Inquiry: ${tourLabel}`,
+              Charset: 'UTF-8'
+            },
+            Body: {
+              Text: {
+                Data: emailBody,
+                Charset: 'UTF-8'
+              }
+            }
+          }
+        },
+        Destination: {
+          ToAddresses: [CONTACT_EMAIL]
+        },
+        FromEmailAddress: FROM_EMAIL,
+        ReplyToAddresses: [email]
+      });
+
+      // AWS SES v2 endpoint
+      const endpoint = `https://email.${AWS_REGION}.amazonaws.com`;
+      const service = 'ses';
+
+      // Create signature
+      const signer = new SignatureV4({
+        service,
         region: AWS_REGION,
         credentials: {
           accessKeyId: context.env.AWS_ACCESS_KEY_ID,
           secretAccessKey: context.env.AWS_SECRET_ACCESS_KEY,
         },
+        sha256: Sha256,
       });
 
-      const command = new SendEmailCommand({
-        Source: FROM_EMAIL,
-        Destination: {
-          ToAddresses: [CONTACT_EMAIL],
+      // Sign the request
+      const signedRequest = await signer.sign({
+        method: 'POST',
+        hostname: `email.${AWS_REGION}.amazonaws.com`,
+        path: '/v2/email/outbound-emails',
+        protocol: 'https:',
+        headers: {
+          'Content-Type': 'application/json',
+          'host': `email.${AWS_REGION}.amazonaws.com`,
         },
-        Message: {
-          Subject: {
-            Data: `New Flight Inquiry: ${tourLabel}`,
-            Charset: 'UTF-8',
-          },
-          Body: {
-            Text: {
-              Data: emailBody,
-              Charset: 'UTF-8',
-            },
-          },
-        },
-        ReplyToAddresses: [email],
+        body: sesRequestBody,
       });
 
-      await sesClient.send(command);
-      console.log('✅ Email sent successfully via AWS SES');
+      // Make the request
+      const response = await fetch(`${endpoint}/v2/email/outbound-emails`, {
+        method: 'POST',
+        headers: signedRequest.headers as HeadersInit,
+        body: sesRequestBody,
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error('SES API error response:', errorText);
+        throw new Error(`SES API error: ${response.status} ${response.statusText}`);
+      }
+
+      const result = await response.json();
+      console.log('✅ Email sent successfully via AWS SES v2 API');
+      console.log('MessageId:', result.MessageId);
     } catch (emailError: any) {
       console.error('❌ AWS SES ERROR:', {
         message: emailError.message,
