@@ -1,5 +1,5 @@
 // Cloudflare Pages Function for flight inquiry form
-// Uses Cloudflare Workers Email (free)
+// Uses Cloudflare Email API (free)
 export async function onRequestPost(context: any) {
   try {
     const body = await context.request.json();
@@ -56,58 +56,45 @@ Reply directly to this email to respond to ${name} at ${email}
 
     // Get contact email from environment or use default
     const CONTACT_EMAIL = context.env.CONTACT_EMAIL || 'inquiries@aviation-expeditions.com';
-    const RESEND_API_KEY = context.env.RESEND_API_KEY;
     const SENDER_EMAIL = context.env.SENDER_EMAIL || 'noreply@aviation-expeditions.com';
 
-    if (!RESEND_API_KEY) {
-      console.error('RESEND_API_KEY is not set in environment variables');
-      return new Response(
-        JSON.stringify({
-          error: 'Email service is not configured. Please contact us directly.'
-        }), {
-          status: 500,
-          headers: { 'Content-Type': 'application/json' },
-        }
-      );
-    }
-
-    // Send email using Resend API
+    // Send email using Cloudflare Mailchannels API
     try {
-      const response = await fetch('https://api.resend.com/emails', {
+      const response = await fetch('https://api.mailchannels.net/tx/v1/send', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${RESEND_API_KEY}`,
         },
         body: JSON.stringify({
-          from: `Aviation Expeditions <${SENDER_EMAIL}>`,
-          to: [CONTACT_EMAIL],
-          reply_to: email,
+          personalizations: [
+            {
+              to: [{ email: CONTACT_EMAIL }],
+              reply_to: { email: email, name: name },
+            },
+          ],
+          from: {
+            email: SENDER_EMAIL,
+            name: 'Aviation Expeditions',
+          },
           subject: `New Flight Inquiry: ${tourLabel}`,
-          text: emailBody,
+          content: [
+            {
+              type: 'text/plain',
+              value: emailBody,
+            },
+          ],
         }),
       });
 
       if (!response.ok) {
-        const errorData = await response.json();
-        console.error('Resend API error:', errorData);
-        console.error('Response status:', response.status);
-        console.error('Full error:', JSON.stringify(errorData, null, 2));
-        return new Response(
-          JSON.stringify({
-            error: 'Failed to send email. Please try again or contact us directly.',
-            debug: errorData
-          }), {
-            status: 500,
-            headers: { 'Content-Type': 'application/json' },
-          }
-        );
+        const errorData = await response.text();
+        console.error('Mailchannels error:', errorData);
+        throw new Error(`Mailchannels returned ${response.status}`);
       }
 
-      const data = await response.json();
-      console.log('Email sent successfully:', data);
+      console.log('Email sent successfully via Mailchannels');
     } catch (emailError) {
-      console.error('Email sending exception:', emailError);
+      console.error('Email sending error:', emailError);
       return new Response(
         JSON.stringify({
           error: 'Email service temporarily unavailable. Please try again.'
@@ -117,8 +104,6 @@ Reply directly to this email to respond to ${name} at ${email}
         }
       );
     }
-
-    console.log('Email sent successfully');
 
     return new Response(
       JSON.stringify({ message: 'Inquiry sent successfully!' }), {
