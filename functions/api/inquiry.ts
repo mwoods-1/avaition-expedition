@@ -72,7 +72,6 @@ Reply directly to this email to respond to ${name} at ${email}
           replyTo: email,
           subject: `New Flight Inquiry: ${tourLabel}`,
           text: emailBody,
-          name: name,
         }),
       });
 

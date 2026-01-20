@@ -5,7 +5,7 @@
  */
 
 export default {
-  async fetch(request, env, ctx) {
+  async fetch(request, env) {
     // CORS headers for Pages Function to call this worker
     const corsHeaders = {
       'Access-Control-Allow-Origin': '*',
@@ -27,20 +27,18 @@ export default {
     }
 
     try {
-      const { to, from, replyTo, subject, text, name } = await request.json();
+      const { to, from, replyTo, subject, text } = await request.json();
 
-      // Create email message
-      const message = new EmailMessage(
-        from,
-        to,
-        subject
-      );
-
-      message.setHeader('Reply-To', replyTo);
-      message.setText(text);
-
-      // Send via Cloudflare Email API
-      await message.send();
+      // Send email using the SEND_EMAIL binding
+      await env.SEND_EMAIL.send({
+        from: from,
+        to: to,
+        subject: subject,
+        headers: {
+          'Reply-To': replyTo,
+        },
+        text: text,
+      });
 
       return new Response(
         JSON.stringify({ success: true, message: 'Email sent' }),

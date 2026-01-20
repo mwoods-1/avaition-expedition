@@ -24,16 +24,16 @@ The worker will be deployed to: `https://email-forwarder.<your-account>.workers.
 
 ## Step 2: Configure Email Worker Binding
 
-After deploying, you need to add the Email binding in Cloudflare Dashboard:
+After deploying, you need to add the Email Sending binding in Cloudflare Dashboard:
 
 1. Go to **Cloudflare Dashboard** → **Workers & Pages**
 2. Click on **email-forwarder** worker
-3. Go to **Settings** → **Variables**
-4. Under **Service Bindings**, click **Add binding**
-5. Add:
-   - **Variable name:** `SEND_EMAIL`
-   - **Service:** Select **Email Sending**
-   - **Environment:** Production
+3. Go to **Settings** → **Bindings**
+4. Scroll to **Send Email** section
+5. Click **Add**
+6. This creates the `SEND_EMAIL` binding that the worker uses via `env.SEND_EMAIL.send()`
+
+Note: The binding name `SEND_EMAIL` is already configured in `wrangler.toml`
 
 ## Step 3: Deploy Pages (Already Done)
 
