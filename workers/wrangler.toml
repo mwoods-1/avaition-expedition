@@ -1,0 +1,8 @@
+name = "email-forwarder"
+main = "email-forwarder.js"
+compatibility_date = "2026-01-20"
+
+# Email sending configuration
+send_email = [
+  { name = "SEND_EMAIL" }
+]

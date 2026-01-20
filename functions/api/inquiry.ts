@@ -57,57 +57,43 @@ This email was sent from the flight inquiry form at aviation-expeditions.com
 Reply directly to this email to respond to ${name} at ${email}
     `.trim();
 
+    // Send email via Cloudflare Email Worker
     try {
-      // Send email using Mailchannels (Cloudflare's email partner)
-      // Requires _mailchannels DNS TXT record for domain lockdown
-      const response = await fetch('https://api.mailchannels.net/tx/v1/send', {
+      const workerUrl = 'https://email-forwarder.mark99woods.workers.dev';
+
+      const emailResponse = await fetch(workerUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          personalizations: [
-            {
-              to: [{ email: CONTACT_EMAIL, name: 'Aviation Expeditions' }],
-            },
-          ],
-          from: {
-            email: 'noreply@aviation-expeditions.com',
-            name: 'Aviation Expeditions Website',
-          },
-          reply_to: {
-            email: email,
-            name: name,
-          },
+          to: CONTACT_EMAIL,
+          from: 'noreply@aviation-expeditions.com',
+          replyTo: email,
           subject: `New Flight Inquiry: ${tourLabel}`,
-          content: [
-            {
-              type: 'text/plain',
-              value: emailBody,
-            },
-          ],
+          text: emailBody,
+          name: name,
         }),
       });
 
-      if (!response.ok) {
-        const errorText = await response.text();
-        console.error('Mailchannels error:', response.status, errorText);
-        throw new Error(`Mailchannels API error: ${response.status}`);
+      if (!emailResponse.ok) {
+        console.error('Email worker error:', await emailResponse.text());
+        // Log but don't fail the form submission
+      } else {
+        console.log('Email sent successfully via worker');
       }
-
-      console.log('Email sent successfully');
     } catch (emailError) {
       console.error('Email sending error:', emailError);
-      return new Response(
-        JSON.stringify({
-          error: 'Email service error',
-          details: emailError instanceof Error ? emailError.message : 'Unknown error'
-        }), {
-          status: 500,
-          headers: { 'Content-Type': 'application/json' },
-        }
-      );
+      // Continue anyway - form submission still succeeds
     }
+
+    // Also log to Cloudflare analytics
+    console.log('=== NEW FLIGHT INQUIRY ===');
+    console.log('Name:', name);
+    console.log('Email:', email);
+    console.log('Phone:', phone);
+    console.log('Tour:', tourLabel);
+    console.log('===========================');
 
     return new Response(
       JSON.stringify({ message: 'Inquiry sent successfully!' }), {
