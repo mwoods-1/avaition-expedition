@@ -1,6 +1,12 @@
 // Cloudflare Pages Function for flight inquiry form
 // Uses AWS SES for email delivery
 import { SESClient, SendEmailCommand } from '@aws-sdk/client-ses';
+import { DOMParser } from '@xmldom/xmldom';
+
+// Polyfill DOMParser for Cloudflare Workers environment
+if (typeof globalThis.DOMParser === 'undefined') {
+  (globalThis as any).DOMParser = DOMParser;
+}
 
 export async function onRequestPost(context: any) {
   try {
