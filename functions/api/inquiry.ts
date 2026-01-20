@@ -69,20 +69,15 @@ Reply directly to this email to respond to ${name} at ${email}
           personalizations: [
             {
               to: [{ email: CONTACT_EMAIL }],
-              reply_to: { email: email, name: name },
             },
           ],
           from: {
             email: SENDER_EMAIL,
             name: 'Aviation Expeditions',
           },
+          reply_to: email,
           subject: `New Flight Inquiry: ${tourLabel}`,
-          content: [
-            {
-              type: 'text/plain',
-              value: emailBody,
-            },
-          ],
+          text: emailBody,
         }),
       });
 
