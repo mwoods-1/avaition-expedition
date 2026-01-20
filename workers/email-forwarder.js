@@ -30,14 +30,14 @@ export default {
       const { to, from, replyTo, subject, text } = await request.json();
 
       // Send email using the SEND_EMAIL binding
+      // Note: Cloudflare doesn't support Reply-To header, so we include it in the email body
+      const emailText = `Reply to: ${replyTo}\n\n${text}`;
+
       await env.SEND_EMAIL.send({
         from: from,
         to: to,
         subject: subject,
-        headers: {
-          'Reply-To': replyTo,
-        },
-        text: text,
+        text: emailText,
       });
 
       return new Response(

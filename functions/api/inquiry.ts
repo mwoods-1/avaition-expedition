@@ -34,7 +34,7 @@ export async function onRequestPost(context: any) {
     }
 
     // Get contact email from environment or use default
-    const CONTACT_EMAIL = context.env.CONTACT_EMAIL || 'inquiries@aviation-expeditions.com';
+    const CONTACT_EMAIL = context.env.CONTACT_EMAIL || 'mark99woods@gmail.com';
 
     // Create email body
     const emailBody = `
