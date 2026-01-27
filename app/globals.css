@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Fraunces:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -12,7 +10,7 @@
 
   body {
     @apply m-0 p-0;
-    font-family: 'Syne', sans-serif;
+    font-family: var(--font-syne), sans-serif;
     background: #1a2a47;
     color: #f0f4f8;
     line-height: 1.6;
@@ -34,7 +32,7 @@
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Fraunces', serif;
+    font-family: var(--font-fraunces), serif;
   }
 }
 
@@ -101,7 +99,7 @@ nav {
 }
 
 .logo {
-  font-family: 'Fraunces', serif;
+  font-family: var(--font-fraunces), serif;
   font-size: 1.5rem;
   font-weight: 700;
   color: #00d4ff;
@@ -133,7 +131,7 @@ nav a {
   letter-spacing: 0.5px;
   transition: all 0.3s ease;
   position: relative;
-  font-family: 'Syne', sans-serif;
+  font-family: var(--font-syne), sans-serif;
 }
 
 nav a::after {
@@ -171,10 +169,16 @@ nav a:hover::after {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  background-attachment: fixed;
   overflow: hidden;
   margin-top: 0;
   padding-top: 60px;
+}
+
+/* Only enable parallax on desktop - it causes jank on mobile */
+@media (min-width: 769px) {
+  .hero {
+    background-attachment: fixed;
+  }
 }
 
 .hero::before {
@@ -374,9 +378,6 @@ nav a:hover::after {
 }
 
 .tour-image {
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
   width: 100%;
   height: 340px;
   flex-shrink: 0;
@@ -972,7 +973,7 @@ nav a:hover::after {
   font-size: 0.8rem;
   opacity: 0.85;
   margin: 0;
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--font-jetbrains), monospace;
 }
 
 /* Animations */
@@ -1344,7 +1345,7 @@ header button svg {
 /* SVG Text Styling */
 .hub-label,
 .destination-label {
-  font-family: 'Syne', sans-serif;
+  font-family: var(--font-syne), sans-serif;
   font-size: 12px;
   fill: #00d4ff;
   text-anchor: middle;

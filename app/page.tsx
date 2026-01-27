@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 export default function Home() {
   const tours = [
     {
@@ -101,10 +103,16 @@ export default function Home() {
         <div className="tours-grid">
           {tours.map((tour) => (
             <div key={tour.id} className="tour-card">
-              <div
-                className="tour-image"
-                style={{ backgroundImage: `url('${tour.image}')` }}
-              />
+              <div className="tour-image">
+                <Image
+                  src={tour.image}
+                  alt={tour.name}
+                  fill
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                  style={{ objectFit: "cover" }}
+                  loading="lazy"
+                />
+              </div>
               <div className="tour-info">
                 <h3>{tour.name}</h3>
                 <div className="tour-meta">

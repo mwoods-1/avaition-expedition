@@ -6,7 +6,7 @@ import { Sha256 } from '@aws-crypto/sha256-js';
 export async function onRequestPost(context: any) {
   try {
     const body = await context.request.json();
-    const { name, email, phone, tourType, preferredDate, passengers, experience, specialRequests } = body;
+    const { name, email, phone, tourType, preferredDate, passengers, specialRequests } = body;
 
     // Map tour type values to full labels
     const tourLabels: Record<string, string> = {
@@ -52,7 +52,6 @@ Phone: ${phone}
 Tour Type: ${tourLabel}
 Preferred Date: ${preferredDate || 'Not specified'}
 Number of Passengers: ${passengers}
-Flying Experience: ${experience || 'Not specified'}
 
 Special Requests:
 ${specialRequests || 'None'}

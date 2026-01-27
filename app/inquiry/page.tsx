@@ -11,7 +11,6 @@ export default function BookingPage() {
     tourType: "",
     preferredDate: "",
     passengers: "1",
-    experience: "",
     specialRequests: "",
   });
 
@@ -54,7 +53,6 @@ export default function BookingPage() {
           tourType: formData.tourType,
           preferredDate: formData.preferredDate,
           passengers: formData.passengers,
-          experience: formData.experience,
           specialRequests: formData.specialRequests,
         }),
       });
@@ -70,7 +68,6 @@ export default function BookingPage() {
           tourType: "",
           preferredDate: "",
           passengers: "1",
-          experience: "",
           specialRequests: "",
         });
 
@@ -291,34 +288,6 @@ export default function BookingPage() {
               <option value="1">1 Passenger</option>
               <option value="2">2 Passengers</option>
               <option value="3">3 Passengers</option>
-            </select>
-          </div>
-
-          {/* Flying Experience */}
-          <div>
-            <label style={{display: 'block', color: '#00d4ff', marginBottom: '0.5rem', fontWeight: '600'}}>
-              Flying Experience
-            </label>
-            <select
-              name="experience"
-              value={formData.experience}
-              onChange={handleChange}
-              style={{
-                width: '100%',
-                padding: '0.75rem',
-                background: 'rgba(15, 31, 53, 0.5)',
-                border: '1px solid rgba(0, 212, 255, 0.15)',
-                borderRadius: '6px',
-                color: '#f0f4f8',
-                fontFamily: 'inherit',
-                fontSize: '1rem'
-              }}
-            >
-              <option value="">Select...</option>
-              <option value="first-time">First time flying</option>
-              <option value="occasional">Occasional flier</option>
-              <option value="frequent">Frequent flier</option>
-              <option value="pilot">I'm a pilot</option>
             </select>
           </div>
 
